@@ -4,9 +4,20 @@ const mongoose = require('mongoose');
 const { errorMonitor } = require('ws');
 const autoresSchema = require('./schemas/autores')
 const client = new Client();
+
+
+
+
+
 const prefix = '!'
 const MONGODB_URI = 'mongodb://localhost:27017/myapp';
 const TOKEN = 'TOKEN HERE';
+
+
+
+
+
+
 mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 client
