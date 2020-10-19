@@ -1,20 +1,14 @@
 require('better-logging')(console);
 const { Client, MessageEmbed } = require('discord.js');
 const mongoose = require('mongoose');
-const { errorMonitor } = require('ws');
 const autoresSchema = require('./schemas/autores')
 const client = new Client();
 
-
-
-
-
+// ! -------------------------------------------
 const prefix = '!'
-const MONGODB_URI = 'mongodb://localhost:27017/myapp';
-const TOKEN = 'TOKEN HERE';
-
-
-
+const MONGODB_URI = 'mongodb://localhost:27017/auto-response-SMASH';
+const TOKEN = 'TOKEN IS HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE';
+// ! -------------------------------------------
 
 
 
@@ -34,6 +28,7 @@ client
             }
         }
 		if(message.content.startsWith(prefix + 'smash-add')) {
+            if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You dont have permissions to run this command.')
             message.channel.send('**Hi, Please send msg thats you want \\😁, `SMASH`**')
             message.channel.awaitMessages((msg) => msg.author.id === message.author.id, {max: 1}).then(c => {
                 message.channel.send('**Now please send the response, `SMASH`**')
@@ -48,6 +43,8 @@ client
             })
         }
         if(message.content.startsWith(prefix + 'smash-list')) {
+            if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You dont have permissions to run this command.')
+
             if(data) {
                 console.log(data)
                 message.channel.send(new MessageEmbed()
@@ -58,7 +55,7 @@ client
             }
         }
         if(message.content.startsWith(prefix + 'smash-edit')) {
-            
+            if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You dont have permissions to run this command.')
             message.channel.send('Please send document ID (Auto response id)')
             message.channel.awaitMessages((msg) => msg.author.id === message.author.id, {max: 1}).then(async(c) => {
                 var datas = await autoresSchema.findOne({guildId: message.guild.id, makeId: c.first().content})
@@ -70,14 +67,24 @@ client
                         datas.msg = d.first().content
                         datas.res = e.first().content
                         await datas.save()
+                        
                         message.channel.send('Done thats save')
                     })
                 })
             })
         }
+        if(message.content.startsWith(prefix + 'smash-remove')) {
+            if(!message.member.hasPermission('ADMINISTRATOR')) return message.channel.send('You dont have permissions to run this command.')
+            message.channel.send('Please send document ID (Auto response id)')
+            message.channel.awaitMessages((msg) => msg.author.id === message.author.id, {max: 1}).then(async(c) => {
+                const datas =  await autoresSchema.findOne({guildId: message.guild.id, makeId: c.first().content})
+                if(!datas) return message.channel.send('I cant find the document id')
+                datas.deleteOne().then(() => message.channel.send('Done has been deleted'))
+            })
+        }
 	});
 
-client.login(TOKEN);
+client.login(TOKEN).catch(err => console.error('Error [TOKEN_INVALID]: An invalid token was provided.'))
 
 
 function idgen() {
