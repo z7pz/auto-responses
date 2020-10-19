@@ -1,0 +1,25 @@
+{
+	"name": "auto-responses",
+	"version": "1.0.0",
+	"description": "Auto responsess",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js"
+	},
+	"keywords": [
+    "Auto responsess",
+    "Bot",
+    "smash",
+    "discord",
+    "discord-bot",
+    "discord-api"
+  ],
+	"author": "sdfygamer",
+	"license": "ISC",
+	"dependencies": {
+		"better-logging": "^4.4.0",
+		"discord.js": "^12.3.1",
+		"mongoose": "^5.10.9"
+	}
+}
