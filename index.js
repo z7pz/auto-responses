@@ -5,8 +5,9 @@ const { errorMonitor } = require('ws');
 const autoresSchema = require('./schemas/autores')
 const client = new Client();
 const prefix = '!'
-
-mongoose.connect('mongodb://localhost:27017/myapp', {useNewUrlParser: true, useUnifiedTopology: true});
+const MONGODB_URI = 'mongodb://localhost:27017/myapp';
+const TOKEN = 'TOKEN HERE';
+mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 client
 	.on('ready', () => {
@@ -65,7 +66,7 @@ client
         }
 	});
 
-client.login('NzQ5MzU0NjI4NTk2MTA1Mjk3.X0qw4Q.L2UbOIiCSJeJIrZNp6EKm69MIa0');
+client.login(TOKEN);
 
 
 function idgen() {
